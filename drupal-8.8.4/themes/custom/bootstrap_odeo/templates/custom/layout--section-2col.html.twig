@@ -1,0 +1,55 @@
+{#
+/**
+ * @file
+ * Two Column Layout
+ *
+ * Available variables:
+ * - col_1
+ * - col_2
+ *
+ */
+#}
+
+
+{% if top|render or col_1|render or col_2|render or bottom|render %}
+{% set row_classes = [ 'col-md' ] %}
+  <{{ outer_wrapper }}{{ attributes }}>
+
+{% if content.top %}
+<div class="row mb-3">
+<{{ top_wrapper }}{{ top_attributes }}>
+  <div class="row mb-3">
+  {{ content.top }}
+  </div>
+</{{ top_wrapper }}>
+</div>
+{% endif %}
+
+     <div class="row mb-3">
+      {% if content.col_1 %}
+        <{{ col_1_wrapper }}{{ col_1_attributes.addClass('col-sm-8') }}>
+          <div{{ region_attributes.col_1 }}>
+            {{ content.col_1 }}
+          </div>
+        </{{ col_1_wrapper }}>
+      {% endif %}
+      {% if content.col_2 %}
+        <{{ col_2_wrapper }}{{ col_2_attributes.addClass('col-sm-4') }}>
+          <div{{ region_attributes.col_2 }}>
+            {{ content.col_2 }}
+          </div>
+        </{{ col_2_wrapper }}>
+      {% endif %}
+    </div>
+
+{% if content.bottom %}
+<{{ bottom_wrapper }}{{ bottom_attributes }}>
+  <div class="row mb-3">
+  {{ content.bottom }}
+  </div>
+</{{ bottom_wrapper }}>
+{% endif %}
+
+
+</{{ outer_wrapper }}>
+{% endif %}

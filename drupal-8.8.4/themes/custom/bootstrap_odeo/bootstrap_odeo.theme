@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the SASS Starterkit subtheme.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_system_theme_settings_alter() for settings form.
+ *
+ * Replace Barrio setting options with subtheme ones.
+ *
+ * Example on how to alter theme settings form
+ *
+ */
+function bootstrap_odeo_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+  $form['components']['navbar']['bootstrap_barrio_navbar_top_background']['#options'] = array(
+      'bg-primary' => t('Primary'),
+      'bg-secondary' => t('Secondary'),
+      'bg-light' => t('Light'),
+      'bg-dark' => t('Dark'),
+      'bg-white' => t('White'),
+      'bg-transparent' => t('Transparent'),
+  );
+  $form['components']['navbar']['bootstrap_barrio_navbar_background']['#options'] = array(
+      'bg-primary' => t('Primary'),
+      'bg-secondary' => t('Secondary'),
+      'bg-light' => t('Light'),
+      'bg-dark' => t('Dark'),
+      'bg-white' => t('White'),
+      'bg-transparent' => t('Transparent'),
+  );
+}
+
+/**
+
+* Implements hook_theme_suggestions_HOOK_alter().
+
+*/
+
+function bootstrap_odeo_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+
+  // Provide suggestion for block templates by custom block type.
+
+  if (!empty($variables['elements']['content']['#block_content'])) {
+
+    $block = $variables['elements']['content']['#block_content'];
+
+    // Add `block--BLOCK-TYPE.html.twig`.
+
+    $suggestions[] = 'block__' . $block->bundle();
+
+    $view_mode = $variables['elements']['#configuration']['view_mode'];
+
+    if (!empty($view_mode)) {
+
+      // Add `block--BLOCK-TYPE--VIEW-MODE.html.twig`.
+
+      $suggestions[] = 'block__' . $block->bundle() . '__' . $view_mode;
+
+    }
+
+  }
+
+}
